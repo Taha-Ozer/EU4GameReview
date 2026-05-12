@@ -3,7 +3,7 @@
 #include <string>
 #include <fstream>
 #include <iostream>
-#include "parser/headers/types.hpp"
+#include "types.hpp"
 
 class Reader
 {
