@@ -18,8 +18,9 @@ enum class TokenType
 
 struct Token
 {
+    Token(std::string value, TokenType type);
     TokenType type;
-    std::string value;
+    std::string value{};
 };
 
 class Tokenizer
@@ -30,6 +31,7 @@ public:
     Token peek();
 
 private:
+    Token classifyToken(std::string data, int dots);
     std::string path;
     Reader reader;
 };
