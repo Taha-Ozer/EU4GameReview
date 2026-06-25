@@ -1,4 +1,5 @@
 #include "../headers/tokenizer.hpp"
+#include <algorithm>
 
 Token::Token(std::string value, TokenType type) : value{value}, type{type} {};
 
@@ -41,7 +42,7 @@ Token Tokenizer::getNextToken()
             }
             continue;
         case '"':
-            while (reader.peek() != '"' || reader.peek() != EOF)
+            while (reader.peek() != '"' && reader.peek() != EOF)
             {
                 tokenData.push_back(reader.getNextCharacter());
             }
@@ -86,4 +87,8 @@ Token Tokenizer::classifyToken(std::string data, int dots)
     {
         return Token(data, TokenType::INT);
     }
+}
+
+Token Tokenizer::peek()
+{
 }

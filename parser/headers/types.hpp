@@ -1,10 +1,10 @@
+#ifndef TYPES_HPP
+#define TYPES_HPP
+
 #include <variant>
 #include <memory>
 #include <string>
 #include <vector>
-
-#ifndef TYPES_HPP
-#define TYPES_HPP
 
 struct EU4Value; // Forward declaration of the main struct.
 

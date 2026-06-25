@@ -11,6 +11,7 @@ public:
     Reader(std::string path);
     char getNextCharacter();
     int peek();
+    void putback(char c);
 
 private:
     std::ifstream savegame;

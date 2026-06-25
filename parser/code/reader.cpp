@@ -26,3 +26,8 @@ int Reader::peek()
 {
     return savegame.peek();
 }
+
+void Reader::putback(char c)
+{
+    savegame.putback(c);
+}
