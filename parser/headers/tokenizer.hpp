@@ -1,6 +1,7 @@
 #ifndef TOKENIZER_HPP
 #define TOKENIZER_HPP
 #include <string>
+#include <optional>
 #include "reader.hpp"
 
 // There are a set amount of types of tokens we can have
@@ -38,6 +39,7 @@ private:
     Token classifyToken(std::string data, int dots);
     std::string path; // it still has the path so it can make a reader member
     Reader reader;    // member readerclass
+    std::optional<Token> peekedToken;
 };
 
 #endif

@@ -8,6 +8,12 @@ Tokenizer::Tokenizer(std::string path) : path{path}, reader(path) {};
 
 Token Tokenizer::getNextToken()
 {
+    if (peekedToken.has_value()) // if the previous has a value
+    {
+        Token returningToken = peekedToken.value(); // we copy it
+        peekedToken.reset();                        // we reset the optional member
+        return returningToken;                      // we return the copy
+    }
     std::string tokenData{}; // we build the token here (might change later for optimization)
     int dot_counter{};       // dot counter per token (helps detecting the tokentype)
     while (true)
@@ -62,7 +68,7 @@ Token Tokenizer::getNextToken()
             }
             if (reader.peek() == '"')
             {
-                tokenData.push_back(next_character); // if it's a unquote we add it.
+                reader.getNextCharacter(); // if it's an unquote we skip also get it but don't push it (we have a general [unquoted] STRING token)
             }
             else
             {
@@ -122,4 +128,7 @@ Token Tokenizer::classifyToken(std::string data, int dots)
 
 Token Tokenizer::peek()
 {
+    Token peeked{getNextToken()}; // we get the next
+    peekedToken = peeked;         // save it as previous
+    return peeked;                // return it
 }
