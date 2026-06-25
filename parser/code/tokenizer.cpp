@@ -25,18 +25,21 @@ Token Tokenizer::getNextToken()
         case '{': // if it's a brace opening
             if (tokenData.length() != 0)
             {
+                reader.putback(next_character);
                 return classifyToken(tokenData, dot_counter);
             }
             return Token(tokenData, TokenType::OPENBRACE);
         case '}': // brace closing
             if (tokenData.length() != 0)
             {
+                reader.putback(next_character);
                 return classifyToken(tokenData, dot_counter);
             }
             return Token(tokenData, TokenType::CLOSEBRACE);
         case '=': // equal sign
             if (tokenData.length() != 0)
             {
+                reader.putback(next_character);
                 return classifyToken(tokenData, dot_counter);
             }
             return Token(tokenData, TokenType::EQUALS);
@@ -57,7 +60,14 @@ Token Tokenizer::getNextToken()
             {
                 tokenData.push_back(reader.getNextCharacter());
             }
-            reader.getNextCharacter(); // we add the final character and return the token
+            if (reader.peek() == '"')
+            {
+                tokenData.push_back(next_character); // if it's a unquote we add it.
+            }
+            else
+            {
+                throw std::runtime_error("Unexpected termination on quoted string"); // if it's an EOF, we can't make up data so we throw an exception
+            }
             return Token(tokenData, TokenType::STRING);
         case EOF:                                    // if it's the end  of the file
             return Token(tokenData, TokenType::END); // return an END token
