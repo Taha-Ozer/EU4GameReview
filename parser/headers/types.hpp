@@ -14,7 +14,11 @@ using EU4List = std::vector<std::unique_ptr<EU4Value>>; // EU4List datatype for 
 
 struct EU4Date
 {
-    // TODO: Implement the EU4Date struct and overload operators for date comparisons
+    // construct out of a string
+    EU4Date(const std::string &date);
+    int day{};
+    int month{};
+    int year{};
 };
 
 struct EU4Value

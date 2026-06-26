@@ -1,5 +1,6 @@
 #include "../headers/tokenizer.hpp"
 #include <algorithm>
+#include <stdexcept>
 
 // Token and Tokenizer constructors
 Token::Token(std::string value, TokenType type) : value{value}, type{type} {};
