@@ -16,6 +16,12 @@ struct EU4Date
 {
     // construct out of a string
     EU4Date(const std::string &date);
+    bool operator==(const EU4Date &other) const;
+    bool operator!=(const EU4Date &other) const;
+    bool operator>(const EU4Date &other) const;
+    bool operator<(const EU4Date &other) const;
+    bool operator>=(const EU4Date &other) const;
+    bool operator<=(const EU4Date &other) const;
     int day{};
     int month{};
     int year{};

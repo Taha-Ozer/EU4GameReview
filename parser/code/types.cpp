@@ -5,10 +5,10 @@
 // construct out of a string
 EU4Date::EU4Date(const std::string &date)
 {
-    int length{date.length()};
+    size_t length{date.length()};
     std::string accumulator{}; // we accumulate the date-data in this
-    int dotCounter{};          // we keep amount of dots
-    for (int letterIdx = 0; letterIdx < length; letterIdx++)
+    size_t dotCounter{};       // we keep amount of dots
+    for (size_t letterIdx = 0; letterIdx < length; letterIdx++)
     {
         // if it's not a dot
         if (date[letterIdx] != '.')
@@ -43,3 +43,35 @@ EU4Date::EU4Date(const std::string &date)
     day = std::stoi(accumulator);
     accumulator.clear();
 }
+
+// === OPERATORS ===
+bool EU4Date::operator==(const EU4Date &other) const
+{
+    return (year == other.year && month == other.month && day == other.day);
+}
+
+bool EU4Date::operator!=(const EU4Date &other) const
+{
+    return !(*this == other);
+}
+
+bool EU4Date::operator>(const EU4Date &other) const
+{
+    return ((year > other.year) || (year == other.year && month > other.month) || (year == other.year && month == other.month && day > other.day));
+}
+
+bool EU4Date::operator<(const EU4Date &other) const
+{
+    return ((year < other.year) || (year == other.year && month < other.month) || (year == other.year && month == other.month && day < other.day));
+}
+
+bool EU4Date::operator>=(const EU4Date &other) const
+{
+    return (*this > other || *this == other);
+}
+
+bool EU4Date::operator<=(const EU4Date &other) const
+{
+    return (*this < other || *this == other);
+}
+// === OPERATORS ===
