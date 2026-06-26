@@ -1,3 +1,5 @@
 #include "../headers/types.hpp"
+#include "../headers/parser.hpp"
 
-bool parse() {}
+// Constructor
+Parser::Parser(std::string filepath) : path(filepath), tokenizer(filepath) {};
