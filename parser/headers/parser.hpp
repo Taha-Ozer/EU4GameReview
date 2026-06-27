@@ -14,6 +14,7 @@ class Parser
 {
 public:
     Parser(std::string filepath);
+    EU4Block parseFile();
     EU4Value parseValue();
     EU4Value parseBlockOrList();
 
