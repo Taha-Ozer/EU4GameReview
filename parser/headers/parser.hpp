@@ -9,6 +9,7 @@ class Parser
 public:
     Parser(std::string filepath);
     EU4Value parseValue();
+    EU4Value parseBlockOrList();
 
 private:
     std::string path{};
