@@ -4,8 +4,8 @@
 #include <cstdio>
 #include <string>
 
-#include "../headers/parser.hpp"
-#include "../headers/types.hpp"
+#include "../parser/headers/parser.hpp"
+#include "../parser/headers/types.hpp"
 
 // Helper function to create dummy save files for testing
 void create_temp_file(const std::string &path, const std::string &content)
