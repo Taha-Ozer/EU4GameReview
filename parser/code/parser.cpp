@@ -37,8 +37,8 @@ EU4Value Parser::parseBlockOrList()
     {
         // if it's an openbrace it's a list and we recursively call parseBlockOrList() again
         mode = ParseMode::LIST;
-        EU4Value first_value = parseBlockOrList();
-        list.push_back(std::make_unique<EU4Value>(first_value)); // we add the value to the EU4List
+        EU4Value first_value = std::move(parseBlockOrList());
+        list.push_back(std::make_unique<EU4Value>(std::move(first_value))); // we add the value to the EU4List
     }
     else if (firstToken.type == TokenType::STRING)
     {
@@ -47,21 +47,21 @@ EU4Value Parser::parseBlockOrList()
         {
             mode = ParseMode::BLOCK;
             tokenizer.getNextToken();
-            EU4Value val = parseValue();                                          // we parse the value
-            block.push_back({firstToken.value, std::make_unique<EU4Value>(val)}); // and add the key,value pair to the block
+            EU4Value val = std::move(parseValue());                                          // we parse the value
+            block.push_back({firstToken.value, std::make_unique<EU4Value>(std::move(val))}); // and add the key,value pair to the block
         }
         else
         {
             // if it's anything other than an equal sign, it means that we're in a list
             mode = ParseMode::LIST;
-            list.push_back(std::make_unique<EU4Value>(firstToken.package())); // we add the value to the list
+            list.push_back(std::make_unique<EU4Value>(std::move(firstToken.package()))); // we add the value to the list
         }
     }
     else
     {
         // all key-value pairs have strings as keys, if it's not a string. It means that we're IN a list
         mode = ParseMode::LIST;
-        list.push_back(std::make_unique<EU4Value>(firstToken.package())); // we add the value to the list
+        list.push_back(std::make_unique<EU4Value>(std::move(firstToken.package()))); // we add the value to the list
     }
     // until we come across a CLOSEBRACE token
     while (tokenizer.peek().type != TokenType::CLOSEBRACE)
@@ -71,15 +71,15 @@ EU4Value Parser::parseBlockOrList()
         {
             // we get the next token
             Token key_token{tokenizer.getNextToken()};
-            tokenizer.getNextToken();                                            // we consume the EQUAL token
-            EU4Value val{parseValue()};                                          // parse the next token
-            block.push_back({key_token.value, std::make_unique<EU4Value>(val)}); // and add the pair to the block
+            tokenizer.getNextToken();                                                       // we consume the EQUAL token
+            EU4Value val = std::move(parseValue());                                         // parse the next token
+            block.push_back({key_token.value, std::make_unique<EU4Value>(std::move(val))}); // and add the pair to the block
         }
         else
         {
             // otherwise, we parse the next value
-            EU4Value val{parseValue()};
-            list.push_back(std::make_unique<EU4Value>(val)); // and add it to the list
+            EU4Value val = std::move(parseValue());
+            list.push_back(std::make_unique<EU4Value>(std::move(val))); // and add it to the list
         }
     }
     tokenizer.getNextToken(); // we consume the CLOSEBRACE
@@ -87,11 +87,11 @@ EU4Value Parser::parseBlockOrList()
     // and we return the EU4Value accordingly
     if (mode == ParseMode::BLOCK)
     {
-        return EU4Value{block};
+        return EU4Value{std::move(block)};
     }
     else
     {
-        return EU4Value{list};
+        return EU4Value{std::move(list)};
     }
 }
 
@@ -105,9 +105,9 @@ EU4Block Parser::parseFile()
     {
         // we get the keyToken
         Token key_token{tokenizer.getNextToken()};
-        tokenizer.getNextToken();                                            // consume the equal
-        EU4Value val{parseValue()};                                          // and parse its value
-        block.push_back({key_token.value, std::make_unique<EU4Value>(val)}); // and push the pair
+        tokenizer.getNextToken();                                                       // consume the equal
+        EU4Value val = std::move(parseValue());                                         // and parse its value
+        block.push_back({key_token.value, std::make_unique<EU4Value>(std::move(val))}); // and push the pair
     }
     return block; // and return it
 }
