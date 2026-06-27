@@ -1,5 +1,6 @@
 #ifndef PARSER_HPP
 #define PARSER_HPP
+#include <variant>
 #include <iostream>
 #include <string>
 #include "tokenizer.hpp"

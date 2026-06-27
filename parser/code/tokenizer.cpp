@@ -5,6 +5,37 @@
 // Token and Tokenizer constructors
 Token::Token(std::string value, TokenType type) : value{value}, type{type} {};
 
+EU4Value Token::package() const
+{
+    // we check the type of the token
+    /*
+    The goal of this function is to package a token into its correct typed EU4Value
+    That way the conversion doesn't have to happen inside the parser itself.
+    */
+    switch (type)
+    {
+    case TokenType::INT:
+        return EU4Value{std::stoi(value)};
+    case TokenType::BOOL:
+        if (value == "yes")
+        {
+            return EU4Value{true};
+        }
+        else
+        {
+            return EU4Value{false};
+        }
+    case TokenType::FLOAT:
+        return EU4Value{std::stof(value)};
+    case TokenType::STRING:
+        return EU4Value{value};
+    case TokenType::DATE:
+        return EU4Value{EU4Date{value}};
+    default:
+        throw std::runtime_error("This can't happen");
+    }
+}
+
 Tokenizer::Tokenizer(std::string path) : path{path}, reader(path) {};
 
 Token Tokenizer::getNextToken()

@@ -2,7 +2,9 @@
 #define TOKENIZER_HPP
 #include <string>
 #include <optional>
+#include <variant>
 #include "reader.hpp"
+#include "types.hpp"
 
 // There are a set amount of types of tokens we can have
 // The enum under lists all of them.
@@ -25,6 +27,7 @@ struct Token
     Token(std::string value, TokenType type);
     TokenType type;
     std::string value{};
+    EU4Value package() const; // function to package the token inside an EU4Value
 };
 
 // the main tokenizer class

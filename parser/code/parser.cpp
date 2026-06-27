@@ -20,7 +20,7 @@ EU4Value Parser::parseValue()
     case TokenType::OPENBRACE:
         return parseBlockOrList(); // if it leads to another list, we call parseBlockOrList() again.
     default:
-        return EU4Value{token.value}; // otherwise we return te value
+        return token.package(); // otherwise we return te value
     }
 }
 
@@ -54,14 +54,14 @@ EU4Value Parser::parseBlockOrList()
         {
             // if it's anything other than an equal sign, it means that we're in a list
             mode = ParseMode::LIST;
-            list.push_back(std::make_unique<EU4Value>(firstToken.value)); // we add the value to the list
+            list.push_back(std::make_unique<EU4Value>(firstToken.package())); // we add the value to the list
         }
     }
     else
     {
         // all key-value pairs have strings as keys, if it's not a string. It means that we're IN a list
         mode = ParseMode::LIST;
-        list.push_back(std::make_unique<EU4Value>(firstToken.value)); // we add the value to the list
+        list.push_back(std::make_unique<EU4Value>(firstToken.package())); // we add the value to the list
     }
     // until we come across a CLOSEBRACE token
     while (tokenizer.peek().type != TokenType::CLOSEBRACE)
