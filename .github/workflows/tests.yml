@@ -16,7 +16,7 @@ jobs:
 
     - name: Compile Test Suite
       run: |
-        g++ -std=c++17 tests/test_main.cpp parser/code/parser.cpp parser/code/tokenizer.cpp parser/code/reader.cpp parser/code/types.cpp -o test_suite
+        g++ -std=c++17 tests/test_main.cpp parser/code/parser.cpp parser/code/tokenizer.cpp parser/code/reader.cpp parser/code/types.cpp Iparser/headers -o test_suite
 
     - name: Run Tests
       run: ./test_suite
