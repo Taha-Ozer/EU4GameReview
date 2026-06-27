@@ -4,6 +4,12 @@
 #include <string>
 #include "tokenizer.hpp"
 
+enum class ParseMode
+{
+    LIST,
+    BLOCK
+};
+
 class Parser
 {
 public:
