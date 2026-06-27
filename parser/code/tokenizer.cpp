@@ -50,7 +50,15 @@ Token Tokenizer::getNextToken()
     int dot_counter{};       // dot counter per token (helps detecting the tokentype)
     while (true)
     {
-        int next_character = reader.getNextCharacter();
+        int next_character;
+        if (reader.peek() != -1)
+        {
+            next_character = reader.getNextCharacter();
+        }
+        else
+        {
+            next_character = -1;
+        }
         /*
         throughout the function we have a classifyToken function.
         This is used to return existing tokens if we come across a new tokentype
@@ -107,7 +115,11 @@ Token Tokenizer::getNextToken()
                 throw std::runtime_error("Unexpected termination on quoted string"); // if it's an EOF, we can't make up data so we throw an exception
             }
             return Token(tokenData, TokenType::STRING);
-        case EOF:                                    // if it's the end  of the file
+        case EOF: // if it's the end  of the file
+            if (!tokenData.empty())
+            {
+                return classifyToken(tokenData, dot_counter);
+            }
             return Token(tokenData, TokenType::END); // return an END token
         default:
             // default we push the char in the string
