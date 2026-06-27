@@ -1,0 +1,23 @@
+name: C++ Parser Tests
+
+on:
+  push:
+    branches: [ "main", "master" ]
+  pull_request:
+    branches: [ "main", "master" ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Compile Test Suite
+      run: |
+        g++ -std=c++17 tests/test_main.cpp src/parser.cpp src/tokenizer.cpp src/reader.cpp src/types.cpp -o test_suite
+      # Note: Adjust the 'src/' paths above if your .cpp files are located in a different directory.
+
+    - name: Run Tests
+      run: ./test_suite
