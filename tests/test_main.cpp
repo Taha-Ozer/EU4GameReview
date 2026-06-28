@@ -98,10 +98,10 @@ void test_parser_nested_blocks()
     assert(nested.size() == 2);
 
     assert(nested[0].first == "development");
-    assert(std::get<int>(nested[0].second->data) == 10);
+    assert(std::get<long long>(nested[0].second->data) == 10);
 
     assert(nested[1].first == "tax");
-    assert(std::get<int>(nested[1].second->data) == 5);
+    assert(std::get<long long>(nested[1].second->data) == 5);
 
     std::remove(path.c_str());
 }
