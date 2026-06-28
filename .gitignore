@@ -1,4 +1,5 @@
 data/
+personal_test/
 .venv/
 build/
 __pycache__/
