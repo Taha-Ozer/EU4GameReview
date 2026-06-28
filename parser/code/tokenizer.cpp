@@ -1,4 +1,5 @@
 #include "../headers/tokenizer.hpp"
+#include <iostream>
 #include <algorithm>
 #include <stdexcept>
 
@@ -15,7 +16,8 @@ EU4Value Token::package() const
     switch (type)
     {
     case TokenType::INT:
-        return EU4Value{std::stoi(value)};
+        std::cout << value << '\n';
+        return EU4Value{std::stoll(value)};
     case TokenType::BOOL:
         if (value == "yes")
         {
@@ -32,7 +34,9 @@ EU4Value Token::package() const
     case TokenType::DATE:
         return EU4Value{EU4Date{value}};
     default:
-        throw std::runtime_error("This can't happen");
+        throw std::runtime_error(
+            "Syntax error (package): unexpected token of type " + std::to_string(static_cast<int>(type)) +
+            " with value '" + value + "'");
     }
 }
 
@@ -136,6 +140,10 @@ Token Tokenizer::getNextToken()
 // Token classifier
 Token Tokenizer::classifyToken(std::string data, int dots)
 {
+    if (data == "---")
+    {
+        return Token(data, TokenType::STRING);
+    }
     // lambda function to check for letters (not numbers) inside the string
     auto has_letters = [](const std::string &str)
     {

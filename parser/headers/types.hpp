@@ -29,7 +29,7 @@ struct EU4Date
 
 struct EU4Value
 {
-    std::variant<int, float, bool, EU4Date, std::string, EU4Block, EU4List> data;
+    std::variant<long long, float, bool, EU4Date, std::string, EU4Block, EU4List> data;
 };
 
 #endif

@@ -16,7 +16,9 @@ EU4Value Parser::parseValue()
     case TokenType::CLOSEBRACE:
     case TokenType::EQUALS:
     case TokenType::END:
-        throw std::runtime_error("Syntax error, Wrong token"); // so we throw an error
+        throw std::runtime_error(
+            "Syntax error (parseValue): unexpected token of type " + std::to_string(static_cast<int>(token.type)) +
+            " with value '" + token.value + "'"); // so we throw an error
     case TokenType::OPENBRACE:
         return parseBlockOrList(); // if it leads to another list, we call parseBlockOrList() again.
     default:
@@ -33,6 +35,12 @@ EU4Value Parser::parseBlockOrList()
 
     Token firstToken{tokenizer.getNextToken()}; // we get the first token
 
+    // if the first thing we encounter is a closebrace, it's an empty list
+    if (firstToken.type == TokenType::CLOSEBRACE)
+    {
+        return EU4Value{std::move(list)}; // if it's an empty list
+    }
+
     if (firstToken.type == TokenType::OPENBRACE)
     {
         // if it's an openbrace it's a list and we recursively call parseBlockOrList() again
@@ -46,7 +54,11 @@ EU4Value Parser::parseBlockOrList()
         if (tokenizer.peek().type == TokenType::EQUALS)
         {
             mode = ParseMode::BLOCK;
-            tokenizer.getNextToken();
+            Token eq = tokenizer.getNextToken();
+            if (eq.type != TokenType::EQUALS)
+            {
+                throw std::runtime_error("Expected EQUALS after key '" + firstToken.value + "', got type " + std::to_string(static_cast<int>(eq.type)) + " value '" + eq.value + "'");
+            }
             EU4Value val = std::move(parseValue());                                          // we parse the value
             block.push_back({firstToken.value, std::make_unique<EU4Value>(std::move(val))}); // and add the key,value pair to the block
         }
@@ -71,7 +83,11 @@ EU4Value Parser::parseBlockOrList()
         {
             // we get the next token
             Token key_token{tokenizer.getNextToken()};
-            tokenizer.getNextToken();                                                       // we consume the EQUAL token
+            Token eq = tokenizer.getNextToken();
+            if (eq.type != TokenType::EQUALS)
+            {
+                throw std::runtime_error("Expected EQUALS after key '" + key_token.value + "', got type " + std::to_string(static_cast<int>(eq.type)) + " value '" + eq.value + "'");
+            } // we consume the EQUAL token
             EU4Value val = std::move(parseValue());                                         // parse the next token
             block.push_back({key_token.value, std::make_unique<EU4Value>(std::move(val))}); // and add the pair to the block
         }
@@ -100,12 +116,21 @@ EU4Block Parser::parseFile()
     // this is the main function for parsing the file
     EU4Block block{}; // we create a block
 
+    if (tokenizer.peek().value == "EU4txt")
+    {
+        tokenizer.getNextToken();
+    }
+
     // and until we hit the end of the file (END token)
     while (tokenizer.peek().type != TokenType::END)
     {
         // we get the keyToken
         Token key_token{tokenizer.getNextToken()};
-        tokenizer.getNextToken();                                                       // consume the equal
+        Token eq = tokenizer.getNextToken();
+        if (eq.type != TokenType::EQUALS)
+        {
+            throw std::runtime_error("Expected EQUALS after key '" + key_token.value + "', got type " + std::to_string(static_cast<int>(eq.type)) + " value '" + eq.value + "'");
+        } // consume the equal
         EU4Value val = std::move(parseValue());                                         // and parse its value
         block.push_back({key_token.value, std::make_unique<EU4Value>(std::move(val))}); // and push the pair
     }
