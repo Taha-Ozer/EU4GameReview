@@ -1,5 +1,6 @@
 #include "../headers/types.hpp"
 #include "../headers/parser.hpp"
+#include <iostream>
 
 // Constructor
 Parser::Parser(std::string filepath) : path(filepath), tokenizer(filepath) {};
@@ -35,24 +36,25 @@ EU4Value Parser::parseBlockOrList()
 
     Token firstToken{tokenizer.getNextToken()}; // we get the first token
 
-    // if the first thing we encounter is a closebrace, it's an empty list
-    if (firstToken.type == TokenType::CLOSEBRACE)
+    switch (firstToken.type) // we decide based on the type of the first token what will happen
     {
-        return EU4Value{std::move(list)}; // if it's an empty list
+    case TokenType::CLOSEBRACE:
+        return EU4Value{std::move(list)}; // if it's a closebrace, it's an empty list
+    case TokenType::OPENBRACE:
+    {
+        mode = ParseMode::LIST;                                             // if it's an openbrace, we start a list
+        EU4Value first_value = std::move(parseBlockOrList());               // we parse inside the list
+        list.push_back(std::make_unique<EU4Value>(std::move(first_value))); // we add it to the list;
+        break;
     }
-
-    if (firstToken.type == TokenType::OPENBRACE)
-    {
-        // if it's an openbrace it's a list and we recursively call parseBlockOrList() again
-        mode = ParseMode::LIST;
-        EU4Value first_value = std::move(parseBlockOrList());
-        list.push_back(std::make_unique<EU4Value>(std::move(first_value))); // we add the value to the EU4List
-    }
-    else if (firstToken.type == TokenType::STRING)
-    {
-        // if it's a string and the next an equals, it's a block
+    case TokenType::STRING:
+    case TokenType::INT:
+    case TokenType::DATE:
+    case TokenType::BOOL:
+    case TokenType::FLOAT:
         if (tokenizer.peek().type == TokenType::EQUALS)
         {
+            // if the very next token is an equal sign, it's a block
             mode = ParseMode::BLOCK;
             Token eq = tokenizer.getNextToken();
             if (eq.type != TokenType::EQUALS)
@@ -68,13 +70,11 @@ EU4Value Parser::parseBlockOrList()
             mode = ParseMode::LIST;
             list.push_back(std::make_unique<EU4Value>(std::move(firstToken.package()))); // we add the value to the list
         }
+        break;
+    default:
+        throw std::runtime_error("We can't have these types of tokens here");
     }
-    else
-    {
-        // all key-value pairs have strings as keys, if it's not a string. It means that we're IN a list
-        mode = ParseMode::LIST;
-        list.push_back(std::make_unique<EU4Value>(std::move(firstToken.package()))); // we add the value to the list
-    }
+
     // until we come across a CLOSEBRACE token
     while (tokenizer.peek().type != TokenType::CLOSEBRACE)
     {
@@ -126,11 +126,17 @@ EU4Block Parser::parseFile()
     {
         // we get the keyToken
         Token key_token{tokenizer.getNextToken()};
-        Token eq = tokenizer.getNextToken();
+        // and check if it's of wrong type of Token
+        if (key_token.type == TokenType::OPENBRACE || key_token.type == TokenType::CLOSEBRACE ||
+            key_token.type == TokenType::EQUALS || key_token.type == TokenType::END)
+        {
+            throw std::runtime_error("Expected a key, got type " + std::to_string(static_cast<int>(key_token.type)) + " value '" + key_token.value + "'");
+        }
+        Token eq = tokenizer.getNextToken(); // we check if the next token is an EQUAL
         if (eq.type != TokenType::EQUALS)
         {
             throw std::runtime_error("Expected EQUALS after key '" + key_token.value + "', got type " + std::to_string(static_cast<int>(eq.type)) + " value '" + eq.value + "'");
-        } // consume the equal
+        }
         EU4Value val = std::move(parseValue());                                         // and parse its value
         block.push_back({key_token.value, std::make_unique<EU4Value>(std::move(val))}); // and push the pair
     }

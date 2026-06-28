@@ -26,14 +26,13 @@ EU4Date::EU4Date(const std::string &date)
             case 0:
                 // if there aren't dots yet. It's the year
                 dotCounter++;
-                std::cout << accumulator << '\n';
+                ;
                 year = std::stoll(accumulator);
                 accumulator.clear();
                 break;
             // else it's the day
             case 1:
                 dotCounter++;
-                std::cout << accumulator << '\n';
                 month = std::stoll(accumulator);
                 accumulator.clear();
                 break;
@@ -43,7 +42,6 @@ EU4Date::EU4Date(const std::string &date)
         }
     }
     // there is no trailing dot so we add the content of the accumulator into day and clear it
-    std::cout << accumulator << '\n';
     day = std::stoll(accumulator);
     accumulator.clear();
 }
