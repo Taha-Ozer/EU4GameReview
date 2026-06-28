@@ -1,0 +1,7 @@
+cmake_minimum_required(VERSION 3.28)
+project(EU4SaveGameReview LANGUAGES CXX)
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+add_library(eu4parser parser/code/parser.cpp parser/code/reader.cpp parser/code/tokenizer.cpp parser/code/types.cpp)
+add_executable(run_tests tests/test_main.cpp)
+target_link_libraries(run_tests PRIVATE eu4parser)
