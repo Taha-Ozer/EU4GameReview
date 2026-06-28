@@ -16,7 +16,6 @@ EU4Value Token::package() const
     switch (type)
     {
     case TokenType::INT:
-        std::cout << value << '\n';
         return EU4Value{std::stoll(value)};
     case TokenType::BOOL:
         if (value == "yes")
