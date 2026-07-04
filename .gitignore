@@ -4,3 +4,4 @@ personal_test/
 build/
 __pycache__/
 *.pyc
+.vscode
