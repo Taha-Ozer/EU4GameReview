@@ -24,7 +24,7 @@ py::object eu4ToPy(const EU4Value &val)
                                  [](float arg)
                                  { return py::cast(arg); }, // idem float
                                  [](const std::string &arg)
-                                 { return py::cast(arg); }, // idem string
+                                 { return py::reinterpret_steal<py::object>(PyUnicode_DecodeLatin1(arg.c_str(), arg.size(), nullptr)); }, // idem string
                                  [](bool arg)
                                  { return py::cast(arg); }, // idem bool
                                  [](const EU4Date &arg)
