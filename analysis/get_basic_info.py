@@ -1,10 +1,6 @@
-import analysis.data as data
-
-
-def getBasic():
-    eu4data = data.load(
-        "C:\\Users\\Taha\\Documents\\Paradox Interactive\\Europa Universalis IV\\save games\\zoroaustrianss.eu4"
-    )
-    date = eu4data["date"]
-    player = eu4data["displayed_country_name"]
-    return (player, date)
+def getBasic(data: dict) -> tuple:
+    playerTag: str = data["player"]
+    money = data["countries"][playerTag]["treasury"]
+    date: tuple = data["date"]
+    player: str = data["displayed_country_name"]
+    return (player, date, money)

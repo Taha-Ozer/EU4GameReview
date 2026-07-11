@@ -9,10 +9,5 @@ except Exception as error:
     sys.exit(0)
 
 
-def load(path: str):
+def load(path: str) -> dict:
     return eu4tools.parse(path)
-
-
-class Country:
-    def __init__(self, name):
-        self.name = name
