@@ -11,5 +11,6 @@ data = eu4tools.parse(
 )
 end = time.time()
 print(f"Parsing took {end - start:.2f} seconds")
+
 print(type(data))
-print(list(data.keys())[:10])
+print(list(data["countries"]["HAB"].keys()))

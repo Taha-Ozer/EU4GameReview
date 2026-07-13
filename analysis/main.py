@@ -1,14 +1,30 @@
 import get_basic_info
 import datagetter
+import localisation
+import country
 
 
 def main(path: str):
+    localisations: dict = localisation.loadLocalisations(
+        "E:\\Europa Universalis 4\\localisation\\countries_l_english.yml"
+    )
     data: dict = datagetter.load(path)
     basicdata: tuple = get_basic_info.getBasic(data)
     print(
-        f"You're playing as the {basicdata[0]} in the date: {basicdata[1][2]}/{basicdata[1][1]}/{basicdata[1][0]} and you have {basicdata[2]:.2f} ducats"
+        f"You're playing as the {basicdata[0]} in the date: {basicdata[1][2]}/{basicdata[1][1]}/{basicdata[1][0]}"
     )
-    print(data.get("great_powers"))
+    myCountry = country.getCountry(basicdata[2], data, localisations)
+    print(
+        myCountry.tag,
+        "\n",
+        myCountry.name,
+        "\n",
+        myCountry.treasury,
+        "\n",
+        myCountry.estimated_monthly_income,
+        "\n",
+        myCountry.regiment_count,
+    )
 
 
 main(
