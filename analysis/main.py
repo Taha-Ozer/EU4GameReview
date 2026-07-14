@@ -2,6 +2,7 @@ import get_basic_info
 import datagetter
 import localisation
 import country
+import greatpowers
 
 
 def main(path: str):
@@ -13,22 +14,9 @@ def main(path: str):
     print(
         f"You're playing as the {basicdata[0]} in the date: {basicdata[1][2]}/{basicdata[1][1]}/{basicdata[1][0]}"
     )
-    myCountry = country.getCountry(basicdata[2], data, localisations)
-    print(
-        myCountry.tag,
-        "\nName: ",
-        myCountry.name,
-        "\nTreasury: ",
-        myCountry.treasury,
-        "\nIncome: ",
-        myCountry.estimated_monthly_income,
-        "\nRegiments: ",
-        myCountry.regiment_count,
-        "\nShips: ",
-        myCountry.ship_count,
-        "\nDevelopment: ",
-        myCountry.development,
-    )
+    gps = greatpowers.getGreatPowers(data, localisations)
+    for entry in gps:
+        print(entry)
 
 
 main(
