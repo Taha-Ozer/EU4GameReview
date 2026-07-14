@@ -72,6 +72,8 @@ def getCountryArmySize(country_data: dict) -> int:
     country_armies = country_data.get(
         "army", []
     )  # we get the "army" key and if it doesn't exist we return an empty list
+    if isinstance(country_armies, dict):
+        country_armies = [country_armies]
     total_regiments = 0  # we init the total regiments at 0
 
     for army in country_armies:
@@ -86,6 +88,8 @@ def getCountryNavySize(country_data: dict) -> int:
     country_navies = country_data.get(
         "navy", []
     )  # same as army we get navy, if it doesnt exist return empty list
+    if isinstance(country_navies, dict):
+        country_navies = [country_navies]
     total_ships = 0  # init at 0
 
     # logic idem army
