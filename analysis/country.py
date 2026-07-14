@@ -21,6 +21,9 @@ class Country:  # Country class to visualize countries
         self.ship_count = ship_count
         self.development = development
 
+    def __str__(self):
+        return f"===== {self.name} =====\n\n===Economy===\n -Treasury: {self.treasury}\n -Income: {self.estimated_monthly_income}\n -Development: {self.development}\n===Military===\n -Regiments: {self.regiment_count}\n -Ships: {self.ship_count}\n -Manpower: {self.manpower}\n\n"
+
 
 def getCountry(tag: str, data: dict, localisations: dict) -> Country:
     country_data = data["countries"][tag]  # the data is from the tag we are searching
