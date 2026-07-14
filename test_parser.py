@@ -13,4 +13,4 @@ end = time.time()
 print(f"Parsing took {end - start:.2f} seconds")
 
 print(type(data))
-print(list(data["countries"]["HAB"].keys()))
+print(list(data["countries"]["HAB"]["army"]))

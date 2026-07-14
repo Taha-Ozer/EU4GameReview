@@ -23,14 +23,16 @@ class Country:  # Country class to visualize countries
 
 
 def getCountry(tag: str, data: dict, localisations: dict) -> Country:
-    country_data = data["countries"][tag]
-    countryName = localisations[tag]
-    countryTreasury = country_data["treasury"]
-    countryIncome = country_data["estimated_monthly_income"]
-    countryManpower = country_data["manpower"]
-    countryRegimentCount = analyze_army(country_data["army"])
-    countryShipCount = analyze_navy(country_data["navy"])
-    countryDev = country_data["development"]
+    country_data = data["countries"][tag]  # the data is from the tag we are searching
+    # === Call all of the gathering functions ===
+    countryName = getCountryLocalisation(tag, localisations)
+    countryTreasury = getCountryTreasury(country_data)
+    countryIncome = getCountryIncome(country_data)
+    countryManpower = getCountryManpower(country_data)
+    countryRegimentCount = getCountryArmySize(country_data)
+    countryShipCount = getCountryNavySize(country_data)
+    countryDev = getCountryDevelopment(country_data)
+    # make a Country object and return it
     return Country(
         tag,
         countryName,
@@ -43,27 +45,56 @@ def getCountry(tag: str, data: dict, localisations: dict) -> Country:
     )
 
 
-def analyze_army(country_armies: dict) -> int:
-    total_raw_regiments = 0
+def getCountryLocalisation(tag: str, localisations: dict) -> str:
+    return localisations[tag]  # we return the localisation from the dict
+
+
+def getCountryTreasury(country_data: dict) -> float:
+    return country_data.get(
+        "treasury", 0.0
+    )  # we get the treasury otherwise just return 0
+
+
+def getCountryIncome(country_data: dict) -> float:
+    return country_data.get(
+        "estimated_monthly_income", 0.0
+    )  # return income default to 0
+
+
+def getCountryManpower(country_data: dict) -> int:
+    return country_data.get("manpower", 0)  # return manpower default to 0
+
+
+def getCountryArmySize(country_data: dict) -> int:
+    country_armies = country_data.get(
+        "army", []
+    )  # we get the "army" key and if it doesn't exist we return an empty list
+    total_regiments = 0  # we init the total regiments at 0
 
     for army in country_armies:
-        if "regiment" not in army:
+        if "regiment" not in army:  # if it doesnt contain "regiment" we can continue
             continue
-
         for _ in army["regiment"]:
-            total_raw_regiments += 1
+            total_regiments += 1  # increment tota regiments
+    return total_regiments  # return total regiments (0 if we returned an empty list)
 
-    return total_raw_regiments
 
+def getCountryNavySize(country_data: dict) -> int:
+    country_navies = country_data.get(
+        "navy", []
+    )  # same as army we get navy, if it doesnt exist return empty list
+    total_ships = 0  # init at 0
 
-def analyze_navy(country_navies: dict) -> int:
-    total_raw_ships = 0
-
+    # logic idem army
     for fleet in country_navies:
         if "ship" not in fleet:
             continue
-
         for _ in fleet["ship"]:
-            total_raw_ships += 1
+            total_ships += 1
+    return total_ships  # return total ships
 
-    return total_raw_ships
+
+def getCountryDevelopment(country_data: dict) -> int:
+    return country_data.get(
+        "development", 0
+    )  # we return the development, if an error occurs we default to 0

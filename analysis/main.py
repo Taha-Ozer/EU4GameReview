@@ -16,14 +16,18 @@ def main(path: str):
     myCountry = country.getCountry(basicdata[2], data, localisations)
     print(
         myCountry.tag,
-        "\n",
+        "\nName: ",
         myCountry.name,
-        "\n",
+        "\nTreasury: ",
         myCountry.treasury,
-        "\n",
+        "\nIncome: ",
         myCountry.estimated_monthly_income,
-        "\n",
+        "\nRegiments: ",
         myCountry.regiment_count,
+        "\nShips: ",
+        myCountry.ship_count,
+        "\nDevelopment: ",
+        myCountry.development,
     )
 
 
