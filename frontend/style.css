@@ -1,0 +1,18 @@
+body {
+    display: flex;
+}
+
+#leftbar {
+    width: 300px;
+    text-align: center;
+}
+
+#mainpanel {
+    flex: 1;
+    text-align: center;
+}
+
+#countryData {
+    margin-left: auto;
+    margin-right: auto;
+}
