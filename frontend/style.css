@@ -3,16 +3,33 @@ body {
 }
 
 #leftbar {
-    width: 300px;
+    width: 25vw;
     text-align: center;
 }
 
 #mainpanel {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
     flex: 1;
     text-align: center;
 }
 
 #countryData {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#leaderboard {
+    flex-direction: column;
+    flex: 1;
+}
+
+#comparisons {
+    flex: 1;
+}
+
+#greatPowers {
     margin-left: auto;
     margin-right: auto;
 }
