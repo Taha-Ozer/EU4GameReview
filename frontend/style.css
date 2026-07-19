@@ -1,10 +1,17 @@
 body {
+    color: #cfb53b;
     display: flex;
+    background-color: #1a0f0a;
 }
 
 #leftbar {
     width: 25vw;
     text-align: center;
+    background-color: #1a2b3c;
+    margin: 2%;
+    border-width: 2%;
+    border-style: solid;
+    border-color: #cfb53b;
 }
 
 #mainpanel {
@@ -13,6 +20,8 @@ body {
     flex-direction: column;
     flex: 1;
     text-align: center;
+    background-color: #e0c9a6;
+    margin: 2%;
 }
 
 #countryData {
@@ -23,13 +32,27 @@ body {
 #leaderboard {
     flex-direction: column;
     flex: 1;
+    background-color: #353f2a;
+    margin: 2%;
+    margin-bottom: 1%;
 }
 
 #comparisons {
     flex: 1;
+    background-color: #1a2b3c;
+    margin: 2%;
+    margin-top: 1%;
 }
 
 #greatPowers {
     margin-left: auto;
     margin-right: auto;
+}
+
+#GreatPowersTab {
+    background-color: #1a2b3c;
+    color: #cfb53b;
+    border-color: #cfb53b;
+    border-width: 0.1cm;
+    width: 12.5vw;
 }
