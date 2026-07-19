@@ -31,6 +31,16 @@ body {
     margin-right: auto;
 }
 
+#countryData th {
+    width: 10vw;
+    text-align: left;
+}
+
+#countryData td {
+    width: 8.5vw;
+    text-align: center;
+}
+
 #leaderboard {
     flex-direction: column;
     flex: 1;
