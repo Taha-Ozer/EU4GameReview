@@ -2,6 +2,7 @@ body {
     color: #cfb53b;
     display: flex;
     background-color: #1a0f0a;
+    font-family: 'Cinzel', serif;
 }
 
 #leftbar {
@@ -12,6 +13,7 @@ body {
     border-width: 2%;
     border-style: solid;
     border-color: #cfb53b;
+    padding: 2%;
 }
 
 #mainpanel {
