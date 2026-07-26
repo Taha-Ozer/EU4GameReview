@@ -1,4 +1,4 @@
-import pytest
+import pytest  # type: ignore
 import json
 from unittest.mock import mock_open, patch
 
@@ -7,11 +7,11 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "analysis"))
 
-import country
-import get_basic_info
-import greatpowers
-import jsonexport
-import localisation
+import country  # type: ignore
+import get_basic_info  # type: ignore
+import greatpowers  # type: ignore
+import jsonexport  # type: ignore
+import localisation  # type: ignore
 
 
 # --- FIXTURES (Mock Data) ---
