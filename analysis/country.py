@@ -24,6 +24,22 @@ class Country:  # Country class to visualize countries
     def __str__(self):
         return f"===== {self.name} =====\n\n===Economy===\n -Treasury: {self.treasury}\n -Income: {self.estimated_monthly_income}\n -Development: {self.development}\n===Military===\n -Regiments: {self.regiment_count}\n -Ships: {self.ship_count}\n -Manpower: {self.manpower}\n\n"
 
+    def toDict(
+        self,
+    ) -> (
+        dict
+    ):  # This function is to convert a country to a dictionary of the self variables
+        countryDict = {}
+        countryDict["tag"] = self.tag
+        countryDict["name"] = self.name
+        countryDict["treasury"] = self.treasury
+        countryDict["estimated_monthly_income"] = self.estimated_monthly_income
+        countryDict["manpower"] = self.manpower
+        countryDict["regiment_count"] = self.regiment_count
+        countryDict["ship_count"] = self.ship_count
+        countryDict["development"] = self.development
+        return countryDict
+
 
 def getCountry(tag: str, data: dict, localisations: dict) -> Country:
     country_data = data["countries"][tag]  # the data is from the tag we are searching

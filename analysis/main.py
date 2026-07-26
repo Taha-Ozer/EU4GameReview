@@ -3,6 +3,7 @@ import datagetter
 import localisation
 import country
 import greatpowers
+import json
 
 
 def main(path: str):

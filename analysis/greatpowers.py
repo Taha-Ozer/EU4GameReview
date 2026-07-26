@@ -14,3 +14,14 @@ def getGreatPowers(data: dict, localisations: dict) -> list:
             country.getCountry(entry.get("country"), data, localisations)
         )  # we add it to the list as a country
     return result
+
+
+def convertGps(
+    gplist: list[country.Country],
+) -> (
+    list
+):  # This function is to convert a list of great powers (country) to a list of great powers (dicts)
+    gpdlist: list = []  # Great Powers Dictionary List
+    for gp in gplist:
+        gpdlist.append(gp.toDict())  # we append every new dict to our returnlist
+    return gpdlist
