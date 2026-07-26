@@ -2,8 +2,16 @@ import pytest
 import json
 from unittest.mock import mock_open, patch
 
-# Import your modules
-from analysis import country, get_basic_info, greatpowers, jsonexport, localisation
+import sys
+from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "analysis"))
+
+import country
+import get_basic_info
+import greatpowers
+import jsonexport
+import localisation
 
 
 # --- FIXTURES (Mock Data) ---
