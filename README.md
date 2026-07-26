@@ -1,6 +1,7 @@
 # Europa Universalis IV Game Review
 
 ![Tests](https://github.com/Taha-Ozer/EU4GameReview/actions/workflows/tests.yml/badge.svg)
+![Python Tests](https://github.com/YOUR_USERNAME/YOUR_REPO/actions/workflows/python-tests.yml/badge.svg)
 
 ## What is this project?
 This project is about making a web-based EU4 game reviewer where a user can upload their savegame and have a summary/review of their game.
