@@ -3,7 +3,7 @@ import datagetter
 import localisation
 import country
 import greatpowers
-import json
+import jsonexport
 
 
 def main(path: str):
@@ -11,13 +11,10 @@ def main(path: str):
         "E:\\Europa Universalis 4\\localisation\\countries_l_english.yml"
     )
     data: dict = datagetter.load(path)
-    basicdata: tuple = get_basic_info.getBasic(data)
-    print(
-        f"You're playing as the {basicdata[0]} in the date: {basicdata[1][2]}/{basicdata[1][1]}/{basicdata[1][0]}"
-    )
     gps = greatpowers.getGreatPowers(data, localisations)
-    for entry in gps:
-        print(entry)
+    player = get_basic_info.getPlayer(data, localisations)
+    aggregated = jsonexport.aggregatePlayerAndGps(player, gps)
+    jsonexport.exportCountries(aggregated)
 
 
 main(
