@@ -6,8 +6,8 @@
     "outDir": "./js",
     // Environment Settings
     // See also https://aka.ms/tsconfig/module
-    "module": "nodenext",
-    "target": "esnext",
+    "module": "ES2022",
+    "target": "ES2022",
     "types": [],
     // For nodejs:
     // "lib": ["esnext"],
