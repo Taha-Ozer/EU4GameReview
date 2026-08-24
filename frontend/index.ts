@@ -62,6 +62,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
         else {
             populateLeftBar(data.player); // we populate the data of the player.
+            populateGreatPowers(data.greatPowers);
         }
     }
 });
@@ -112,4 +113,63 @@ function putValueInElement(element: string, player: Country, type: ElementType):
 
         }
     }
+}
+
+function populateGreatPowers(greatPowers: Country[]): void {
+
+    let arraySize: number = greatPowers.length; // get the arraysize for optimization (it's like that in C so idk)
+    createLeaderboardHeader(); // we create the LB
+    for (let i: number = 0; i < arraySize; i++) { // we loop through the GP array and populate the rows
+        let gp: Country | undefined = greatPowers[i];
+        if (!gp) {
+            console.log(`Greatpower ${i} couldn't be read!`); // if we can't get a GP we continue
+            continue;
+        }
+        populateRow(gp, i + 1); // we populate the row
+    }
+}
+
+function createLeaderboardHeader(): void {
+
+    const GreatPowersTable = document.getElementById("greatPowers"); // get the table first
+    if (!GreatPowersTable) {
+        console.log("Couldn't get Table of GPs"); // if no table return with console error
+        return;
+    }
+    const header = document.createElement('tr'); // we make the LB header with RANK - NAME - DEVELOPMENT
+    GreatPowersTable.appendChild(header);
+    const rankCol = document.createElement('td');
+    rankCol.textContent = "Rank"; // we create the Rank tag
+    header.appendChild(rankCol);
+    const nameCol = document.createElement('td'); // we create the name column
+    nameCol.textContent = "Country";
+    header.appendChild(nameCol); // we add it to the Leaderboard
+    const devCol = document.createElement('td');
+    devCol.textContent = "Development"; // we create the Development column and add it to the header
+    header.appendChild(devCol);
+
+}
+
+function populateRow(greatPower: Country, rank: number): void {
+    const GreatPowersTable = document.getElementById("greatPowers"); // we get the table first and handle any errors
+    if (!GreatPowersTable) {
+        console.log("Couldn't fetch the GP table!\n");
+        return;
+    }
+    /* 
+    we create the row for the country and then
+    create all the <td>s needed for a GP entry in the LB
+    and populate all of the columns
+    */
+    const Country = document.createElement("tr");
+    GreatPowersTable.appendChild(Country);
+    const countryRank = document.createElement('td');
+    countryRank.textContent = rank.toString();
+    Country.appendChild(countryRank);
+    const countryName = document.createElement('td');
+    countryName.textContent = greatPower.name;
+    Country.appendChild(countryName);
+    const countryDev = document.createElement('td');
+    countryDev.textContent = greatPower.development.toFixed(0).toString();
+    Country.appendChild(countryDev);
 }
