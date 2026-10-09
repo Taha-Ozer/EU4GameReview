@@ -1,0 +1,51 @@
+body{
+    background-color: #003153;
+}
+
+#top-bar{
+    background-color: #00406e;
+    display: grid;
+    grid-template-columns: 20vw 1fr 20vw;
+    align-items: center;
+    border-radius: 16px;
+    color: white;
+}
+
+#save-name{
+    padding-left: 1vw;
+    display:flex;
+    justify-content: flex-start;
+    white-space: nowrap;
+}
+
+#navigation{
+    padding-right:1vw;
+    display: flex;
+    white-space: nowrap;
+    justify-content: right;
+    gap: 1vw;
+
+}
+
+#save-date{
+    align-items: center;
+    justify-self: center;
+}
+
+.tab-button{
+    color:white;
+    background-color: #00406e;
+    border-radius: 12px;
+    border-width: 0;
+    font-size: medium;
+    padding: 5%;
+}
+
+.tab-button:hover{
+    background-color: #003153;
+}
+
+.tab-button:active{
+    color:#00406e;
+    background-color: white;
+}
