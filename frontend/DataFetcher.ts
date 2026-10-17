@@ -1,8 +1,8 @@
-import type { RawBaseData } from "./types";
+import { type Country, type RawBaseData, ElementType } from "./types.js";
 
 
 // The function to read a specified file and return the raw base data object
-async function readData(path: string): Promise<RawBaseData | null>{
+export async function readData(path: string): Promise<RawBaseData | null>{
     try{
         // We try to get the file from the path
         const response = await fetch(path);
@@ -14,7 +14,7 @@ async function readData(path: string): Promise<RawBaseData | null>{
         return data;
     }
     catch (error){
-        // if we can't do it, we throw an error
+        // if we can't do it, we throw an error and return null
         console.error(error);
         return null;
     }

@@ -16,3 +16,15 @@ export interface RawBaseData{
     player: Country,
     greatPowers: Country[]
 }
+
+
+// An enum to be able to classify elements we will use
+export enum ElementType{
+    NAME,
+    DEV,
+    TREASURY,
+    INCOME,
+    MANPOWER,
+    REGIMENTS,
+    SHIPS
+}
